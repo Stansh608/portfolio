@@ -29,7 +29,7 @@ const Contact = () => {
     } else{
       document.getElementById("message").style.border="2px solid black";
     }
-    axios.post("http://127.0.0.1:3001/sendmail", {
+    axios.post("https://portfoliostansh698backend.netlify.app/.netlify/functions/api/sendmail", {
       name:name,
       email:email,
       message:message

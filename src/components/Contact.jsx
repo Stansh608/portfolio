@@ -3,12 +3,18 @@ import { useState } from 'react';
 import { Display } from 'react-bootstrap-icons';
 import sendMessageIcon from '../assets/sendmessage.png';
 import axios from 'axios';
+import { Alert, AlertTitle } from '@mui/material';
+import "../assets/css/popup.css"
 
 const Contact = () => {
   const [name,setName]=useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const handleSubmit =(e)=>{
+  const [success, setSuccess] =useState(false);
+  const [fail, setFail] = useState(false);
+
+  //onsubmit
+  const handleSubmit = async (e)=>{
     e.preventDefault();
 
     if(!name){
@@ -29,22 +35,50 @@ const Contact = () => {
     } else{
       document.getElementById("message").style.border="2px solid black";
     }
-    axios.post("https://portfoliostansh698backend.netlify.app/.netlify/functions/api/sendmail", {
-      name:name,
-      email:email,
-      message:message
-,
-    }).then((response)=>{
-      console.log(response.data);
-    }).catch((error)=>{
-      console.error("Error", error);
-    })
+    //sending the mail
+    try {
+      const response = await axios.post("https://portfoliostansh698backend.netlify.app/.netlify/functions/api/sendmail", {
+        name:name,
+        email:email,
+        message:message,
+      }
+    
+    );
+
+    //console.log response
+    console.log("Message sent successfully");
+    setSuccess(true);
+    setEmail("");
+    setMessage("");
+    setName("");
+    setTimeout(() => setSuccess(false), 5000);
+       
+    }
+    catch(error){
+      //console.error("Error sending the message", error);
+      setFail(true);
+      setTimeout(()=>setFail(false), 5000);
+    }
     
 
 
   }
   return (
+    <>
+    <div className='popup-alert'>
+    {success && <Alert severity="success" onClose={() => setSuccess(false)}>
+      <AlertTitle>Success</AlertTitle>
+        The email message has been sent successfully.
+      </Alert>}
+      {fail && <Alert severity="error" onClose={() => setFail(false)}>
+      <AlertTitle>Error</AlertTitle>
+        An error occurred trying to send the message. Please try again Later.
+      </Alert>}
+
+    </div>
+    
     <div className='contact' id='contact'>
+    
       <form >
         <h2 style={{textAlign:"center"}}>Contact Me</h2><br />
         <div style={{display:"flex", margin:"auto", alignItems:"center", marginBottom:"20px"}}>
@@ -72,6 +106,7 @@ const Contact = () => {
         <p>More content</p>
       </div>
     </div>
+    </>
   )
 }
 

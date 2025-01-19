@@ -646,6 +646,52 @@ textarea:hover {
 }
 
 
+/***** collapse in mobile screen  *****/
+
+
+/* Mobile-specific styles */
+
+@media (max-width: 768px) {
+    .contact {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        /*separation gap of stacked element*/
+    }
+    .contact form {
+        margin-right: 0;
+        /* Reset margin since elements stack vertically */
+        width: 100%;
+        /* Ensure full width for smaller screens */
+    }
+    .contact .separater {
+        width: 100%;
+        /* Separator spans full width */
+        height: 1px;
+        /* Horizontal separator */
+        margin: 20px 0;
+        /* Adjust spacing */
+    }
+    .contact .content {
+        width: 100%;
+        /* Ensure full width */
+    }
+    .contact input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 100%;
+        /* Full width for input fields */
+    }
+    .contact input[type="text"]:hover,
+    input[type="email"]:hover,
+    textarea:hover {
+        width: 103%;
+        /* Maintain hover consistency */
+        transition: transform 0.2s, border-right-radius 15px;
+    }
+}
+
+
 /************ Footer Css ************/
 
 .footer {
